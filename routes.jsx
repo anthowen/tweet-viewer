@@ -23,7 +23,7 @@ const index = (req, res) => {
 
 const page = (req, res) => {
   // fetch tweets by page via param
-  Tweet.getTweets(req.params.page, req.params.skip, function(tweets) {
+  Tweet.getTweets(+req.params.page, +req.params.skip, function(tweets) {
     // render as JSON
     res.send(tweets);
   });

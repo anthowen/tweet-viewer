@@ -19,6 +19,7 @@ app.set('view engine', 'pug');
 app.disable('etag');
 
 // connect to our mongo database via mongoose
+mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/react-tweets');
 
 const client = new Twitter(config.twitter);
@@ -37,10 +38,10 @@ const server = http.createServer(app).listen(port, function() {
   console.log('Express server listening on port ' + port);
 });
 
-// Initialize socket.io
+// initialize socket.io
 const io = require('socket.io').listen(server);
 
-// set up a stream listener and pass it to streamHandler
+// set up a stream listener and pass to streamHandler
 client.stream(
   'statuses/filter',
   {track: 'javascript'},

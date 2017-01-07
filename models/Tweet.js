@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // schema for tweet data
-const schema = new mongoose.Schema({
+const tweetSchema = new mongoose.Schema({
   twid: String,
   active: Boolean,
   author: String,
@@ -12,30 +12,26 @@ const schema = new mongoose.Schema({
 });
 
 // static method to return tweet data from db
-schema.statics.getTweets = function(page, skip, callback) {
-  let tweets = []
-    , start = (page * 10) + (skip * 1)
-    ;
+tweetSchema.statics.getTweets = function(page, skip, callback) {
+
+  const start = (page * 10) + skip;
 
   // query db
   Tweet
-    .find(
-      {},
-      'twid active author avatar body date username',
-      {skip: start, limit: 10}
-    )
-    .sort({date: 'desc'})
+    .find({}, 'twid active author avatar body date username')
+    .sort({ date: 'desc' })
+    .skip(start)
+    .limit(10)
     .exec(function (err, docs) {
-      if (!err) {
-        tweets = docs;
-        tweets.forEach(function(tweet) {
-          tweet.active = true;
-        });
-      }
+      if (err) throw err;
+      const tweets = docs;
+      tweets.forEach(function(tweet) {
+        tweet.active = true;
+      });
       callback(tweets);
     });
 };
 
-const Tweet = mongoose.model('Tweet', schema);
+const Tweet = mongoose.model('Tweet', tweetSchema);
 
 export default Tweet;

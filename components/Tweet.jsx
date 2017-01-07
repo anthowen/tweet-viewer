@@ -3,11 +3,11 @@ import React from 'react';
 class Tweet extends React.Component {
 
   constructor(props) {
-    super(props);
+    super();
   }
 
   render() {
-    let tweet = this.props.tweet;
+    const tweet = this.props.tweet;
     return (
       <li className={"tweet" + (tweet.active ? ' active' : '')}>
         <img src={tweet.avatar} className="avatar"/>

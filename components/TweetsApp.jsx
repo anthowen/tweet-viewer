@@ -1,7 +1,7 @@
 import React from 'react';
 import Tweets from './Tweets';
 import Loader from './Loader';
-import NotificationBar from './NotificationBar';
+import NotificationButton from './NotificationButton';
 
 class TweetsApp extends React.Component {
 
@@ -9,10 +9,10 @@ class TweetsApp extends React.Component {
     super(props);
     this.state = {
       tweets: props.tweets,
-      count: 0,
+      count: 0, // new tweet count for notification bar
       page: 0,
       paging: false,
-      skip: 0,
+      skip: 0, // tweets to skip when retrieving from db (doesn't reset)
       done: false
     };
   }
@@ -21,39 +21,23 @@ class TweetsApp extends React.Component {
   render() {
     return (
       <div className='tweets-app'>
-        <Tweets tweets={ this.state.tweets } />
-        <Loader paging={ this.state.paging } />
-        <NotificationBar
+        <NotificationButton
           count={ this.state.count }
           onShowNewTweets={ this.showNewTweets.bind(this) }
         />
+        <Tweets tweets={ this.state.tweets } />
+        <Loader paging={ this.state.paging } />
       </div>
     );
   }
 
-  // getInitialState(props) {
-  //   props = props || this.props;
-  //   // initial app state set from props
-  //   return {
-  //     tweets: props.tweets,
-  //     count: 0,
-  //     page: 0,
-  //     paging: false,
-  //     skip: 0,
-  //     done: false
-  //   };
-  // }
-
-  // componentWillReceiveProps(newProps) {
-  //   this.setState(this.getInitialState(newProps));
-  // }
-
   componentDidMount() {
-    let socket = io.connect();
+    // set up socket for receiving new tweets
+    const socket = io.connect();
     socket.on('tweet', (data) => {
       this.addTweet(data);
     });
-    // scroll event for infinity paging
+    // set up scroll event for infinity paging
     window.addEventListener(
       'scroll',
       this.checkWindowScroll.bind(this)
@@ -61,16 +45,18 @@ class TweetsApp extends React.Component {
   }
 
   addTweet(tweet) {
-    let updated = this.state.tweets;
-    let count = this.state.count + 1;
-    let skip = this.state.skip + 1;
+    const updated = this.state.tweets;
     updated.unshift(tweet);
     // Set application state
-    this.setState({ tweets: updated, count, skip });
+    this.setState({
+      tweets: updated,
+      count: this.state.count + 1,
+      skip: this.state.skip + 1
+    });
   }
 
   showNewTweets() {
-    let updated = this.state.tweets;
+    const updated = this.state.tweets;
     // Mark our tweets active
     updated.forEach((tweet) => { tweet.active = true; });
     // Set application state (active tweets + reset unread count)
@@ -80,40 +66,40 @@ class TweetsApp extends React.Component {
   // check if more tweets should be loaded, by scroll position
   checkWindowScroll() {
     // Get scroll pos & window data
-    let h = Math.max(
+    const h = Math.max(
       document.documentElement.clientHeight,
       window.innerHeight || 0
     );
-    let s = document.body.scrollTop;
-    let scrolled = (h + s) > document.body.offsetHeight;
+    const s = document.body.scrollTop;
+    const scrolled = (h + s) >= document.body.offsetHeight;
     // If scrolled enough, not currently paging and not complete...
     if(scrolled && !this.state.paging && !this.state.done) {
       // Set application state (Paging, Increment page)
       this.setState({ paging: true, page: this.state.page + 1 });
       // Get the next page of tweets from the server
-      this.getPage(this.state.page);
+      this.getPage();
     }
   }
 
   // get JSON from server by page
-  getPage(page) {
-    let request = new XMLHttpRequest();
-    request.open('GET', 'page/' + page + '/' + this.state.skip, true);
+  getPage() {
+    const request = new XMLHttpRequest();
+    request.open('GET', `page/${this.state.page}/${this.state.skip}`, true);
     request.onload = () => {
       if (request.status >= 200 && request.status < 400){
         this.loadPagedTweets(JSON.parse(request.responseText));
       } else {
-        // Set application state (Not paging, paging complete)
+        // set application state: not paging, loading complete
         this.setState({ paging: false, done: true });
       }
     };
-    // Fire!
+    // fire! bang bang bang
     request.send();
   }
 
   loadPagedTweets(tweets) {
     if (tweets.length > 0) {
-      let updated = this.state.tweets;
+      const updated = this.state.tweets;
       tweets.forEach((tweet) => { updated.push(tweet); });
       // use timeout to see loading spinner
       setTimeout(() => {
@@ -121,7 +107,7 @@ class TweetsApp extends React.Component {
       }, 1000);
     } else {
       // Set application state (Not paging, paging complete)
-      this.setState({ done: true, paging: false });
+      this.setState({ paging: false, done: true });
     }
   }
 
