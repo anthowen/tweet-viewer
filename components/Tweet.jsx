@@ -1,4 +1,5 @@
 import React from 'react';
+import format from '../utils/dateFormatter';
 
 class Tweet extends React.Component {
 
@@ -14,7 +15,9 @@ class Tweet extends React.Component {
         <blockquote>
           <cite>
             <a href={"http://www.twitter.com/" + tweet.username}>{tweet.author}</a>
-            <span className="screen-name">@{tweet.username}</span>
+            <span className="screen-name">@{ tweet.username }</span>
+            <span className="dot">·</span>
+            <span className="date">{ format(tweet.date) }</span>
           </cite>
           <span className="content">{tweet.body}</span>
         </blockquote>

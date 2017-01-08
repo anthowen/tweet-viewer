@@ -1,263 +1,182 @@
-*
-{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-body
-{
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 
-    color: white;
-    background: #2c3e50;
+  color: white;
+  background: #2c3e50;
 }
 
-/*footer
-{
-    position: fixed;
-    z-index: 999;
-    bottom: 0;
-
-    width: 100%;
-    padding: 20px;
-
-    background: #abd9ff;
+.loader {
+  text-align: center;
 }
 
-footer a,
-footer span
-{
-    font-size: 12px;
-    font-weight: bold;
+.loader img {
+  max-height: 0;
+  margin: 0;
+
+  -webkit-transition: 1s all ease;
+     -moz-transition: 1s all ease;
+      -ms-transition: 1s all ease;
+       -o-transition: 1s all ease;
+          transition: 1s all ease;
 }
 
-footer a.link-back
-{
-    text-decoration: none;
-
-    color: #2c3e50;
+.loader.active img {
+  max-height: 50px;
+  margin: 10px auto 20px;
 }
 
-footer .twitter-share-button
-{
-    margin-right: 10px;
+.notification-button-container {
+  max-width: 600px;
+  margin: 20px auto 0px;
+  padding: 0 20px;
 }
 
-footer span.update-message
-{
-    padding-top: 3px;
+.notification-button {
+  height: 0px;
+  overflow: hidden;
 
-    color: #2c3e50;
+  border-radius: 3px;
+  color: white;
+  background: rgba(241, 196, 15,.9);
+  box-shadow: 0 2px 0 #d3ac10;
+
+  cursor: pointer;
 }
 
-footer .twitter-share-button,
-footer .update-message
-{
-    float: right;
-}*/
+.notification-button.active {
+  height: 30px;
 
-.loader
-{
-    text-align: center;
+  -webkit-transition: height 300ms ease;
+     -moz-transition: height 300ms ease;
+      -ms-transition: height 300ms ease;
+       -o-transition: height 300ms ease;
+          transition: height 300ms ease;
 }
 
-.loader img
-{
-    max-height: 0;
-    margin: 0;
-
-    -webkit-transition: 1s all ease;
-       -moz-transition: 1s all ease;
-        -ms-transition: 1s all ease;
-         -o-transition: 1s all ease;
-            transition: 1s all ease;
+.notification-button p {
+  text-align: center;
+  line-height: 4px;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-.loader.active img
-{
-    max-height: 50px;
-    margin: 10px auto 20px;
+.notification-button:active {
+	position: relative;
+	top: 2px;
+  box-shadow: none;
 }
 
-.notification-button-container
-{
-    max-width: 600px;
-    margin: 20px auto 0px;
-    padding: 0 20px;
+.tweets {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.notification-button
-{
-    height: 0px;
-    overflow: hidden;
+.tweet {
+  position: relative;
 
-    border-radius: 3px;
-    color: white;
-    background: rgba(241, 196, 15,.9);
+  display: block;
+  overflow: hidden;
 
-    cursor: pointer;
+  max-height: 0px;
+  margin: 0;
+
+  list-style-type: none;
+
+  color: #2c3e50;
+  border-radius: 3px;
+  background: white;
+  box-shadow: 0 3px 0 #eee;
 }
 
-.notification-button.active
-{
-    height: 30px;
+.tweet.active {
+  max-height: 125px;
+  margin: 20px 0;
 
-    -webkit-transition: 300ms all ease;
-       -moz-transition: 300ms all ease;
-        -ms-transition: 300ms all ease;
-         -o-transition: 300ms all ease;
-            transition: 300ms all ease;
+  -webkit-transition: 500ms all ease;
+     -moz-transition: 500ms all ease;
+      -ms-transition: 500ms all ease;
+       -o-transition: 500ms all ease;
+          transition: 500ms all ease;
 }
 
-.notification-button p
-{
-    text-align: center;
-    line-height: 4px;
-    font-size: 13px;
-    font-weight: bold;
+.tweet .avatar {
+  position: relative;
+
+  display: inline-block;
+  float: left;
+
+  width: 48px;
+  margin: 10px;
+
+  border: 2px solid #ccc;
+  border-radius: 48px;
 }
 
-.notification-button:active
-{
-  	position: relative;
-  	top: 1px;
+.tweet blockquote {
+  font-size: 14px;
+
+  display: inline-block;
+  float: right;
+
+  width: calc(100% - 72px);
+  margin: 0;
+  padding: 10px;
 }
 
-.tweets
-{
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 20px;
+.tweet blockquote cite {
+  font-weight: bold;
+  font-style: normal;
 }
 
-.tweet
-{
-    position: relative;
+.tweet blockquote cite a {
+  display: inline-block;
 
-    display: block;
-    overflow: hidden;
+  margin-right: 5px;
 
-    max-height: 0px;
-    margin: 0;
+  text-decoration: none;
 
-    list-style-type: none;
-
-    color: #2c3e50;
-    border-radius: 3px;
-    background: white;
-    box-shadow: 0 3px 0 #eee;
+  color: #1abc9c;
 }
 
-.tweet.active
-{
-    max-height: 125px;
-    margin: 20px 0;
-
-    -webkit-transition: 500ms all ease;
-       -moz-transition: 500ms all ease;
-        -ms-transition: 500ms all ease;
-         -o-transition: 500ms all ease;
-            transition: 500ms all ease;
+.tweet blockquote cite a:hover {
+  text-decoration: underline;
 }
 
-.tweet .avatar
-{
-    position: relative;
+.tweet blockquote .screen-name,
+.tweet blockquote .date,
+.tweet blockquote .dot {
+  font-size: 13px;
+  font-weight: normal;
 
-    display: inline-block;
-    float: left;
-
-    width: 48px;
-    margin: 10px;
-
-    border: 2px solid #ccc;
-    border-radius: 48px;
+  color: #ccc;
 }
 
-.tweet blockquote
-{
-    font-size: 14px;
-
-    display: inline-block;
-    float: right;
-
-    width: calc(100% - 72px);
-    margin: 0;
-    padding: 10px;
+.tweet blockquote .dot {
+  margin: 0px 3px;
 }
 
-.tweet blockquote cite
-{
-    font-weight: bold;
-    font-style: normal;
-}
+.tweet blockquote .content {
+  display: block;
+  clear: left;
 
-.tweet blockquote cite a
-{
-    display: inline-block;
-
-    margin-right: 5px;
-
-    text-decoration: none;
-
-    color: #1abc9c;
-}
-
-.tweet blockquote cite a:hover
-{
-    text-decoration: underline;
-}
-
-.tweet blockquote .screen-name
-{
-    font-size: 13px;
-    font-weight: normal;
-
-    color: #ccc;
-}
-
-.tweet blockquote .content
-{
-    display: block;
-    clear: left;
-
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .tweet:before,
-.tweet:after
-{
-    display: table;
+.tweet:after {
+  display: table;
 
-    content: ' ';
+  content: ' ';
 }
 
-.tweet:after
-{
-    clear: both;
-}
-
-@media (max-width: 650px)
-{
-    footer span.update-message
-    {
-        display: none;
-    }
-}
-
-@media (max-width: 500px)
-{
-    footer a.link-back
-    {
-        font-size: 0;
-    }
-    footer a:after
-    {
-        font-size: 12px;
-
-        content: '← Back To Learning React';
-
-    }
+.tweet:after {
+  clear: both;
 }
