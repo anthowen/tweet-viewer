@@ -14,8 +14,8 @@
     "express": "^4.14.0",
     "mongoose": "^4.7.3",
     "pug": "^2.0.0-beta6",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
     "socket.io": "^1.7.2",
     "twitter": "^1.7.0"
   },
